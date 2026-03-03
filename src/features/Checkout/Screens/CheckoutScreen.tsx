@@ -149,13 +149,13 @@ export default function CheckoutScreen() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="grid lg:grid-cols-3 gap-8 container">
+        <form onSubmit={handleSubmit(onSubmit)} className={`grid gap-8 container ${numOfCartItems > 0 ? 'lg:grid-cols-3' : 'max-w-4xl mx-auto'}`}>
 
           {/* Hidden Payment Method */}
           <input type="hidden" value={paymentMethod} {...register("paymentMethod")} />
 
           {/* ---------------- Left Side ---------------- */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className={`${numOfCartItems > 0 ? 'lg:col-span-2' : ''} space-y-6`}>
 
             {/* Shipping Information */}
             <div className="bg-white border border-gray-200 p-6 sm:p-8 rounded-2xl shadow-sm space-y-6">
@@ -385,72 +385,74 @@ export default function CheckoutScreen() {
 
           {/* ---------------- Right Side ---------------- */}
           {/* Right Column - Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-[#FAFAFA] rounded-2xl p-8 sticky top-6">
-              <h2 className="text-2xl mb-6">Order Summary</h2>
+          {numOfCartItems > 0 && (
+            <div className="lg:col-span-1">
+              <div className="bg-[#FAFAFA] rounded-2xl p-8 sticky top-6">
+                <h2 className="text-2xl mb-6">Order Summary</h2>
 
-              {/* Cart Items */}
-              <div className="mb-6 pb-6 border-b border-gray-300">
-                <div className="max-h-56 overflow-y-auto space-y-4">
-                  {products.map((item) => (
-                    <div key={cartId} className="flex gap-4">
-                      <img
-                        src={item.product.imageCover}
-                        alt={item.product.title}
-                        className="w-20 h-20 object-cover rounded-lg"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm mb-1 line-clamp-2">{item.product.title}</h3>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-600">Qty: {item.product.quantity}</span>
-                          <span className="text-[#FF7A00]">${item.price.toFixed(2)}</span>
+                {/* Cart Items */}
+                <div className="mb-6 pb-6 border-b border-gray-300">
+                  <div className="max-h-56 overflow-y-auto space-y-4">
+                    {products.map((item) => (
+                      <div key={cartId} className="flex gap-4">
+                        <img
+                          src={item.product.imageCover}
+                          alt={item.product.title}
+                          className="w-20 h-20 object-cover rounded-lg"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm mb-1 line-clamp-2">{item.product.title}</h3>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600">Qty: {item.product.quantity}</span>
+                            <span className="text-[#FF7A00]">${item.price.toFixed(2)}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Price Breakdown */}
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                {/* Price Breakdown */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Subtotal</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Shipping</span>
+                    <span className="text-[#FF7A00]">
+                      {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Tax (8%)</span>
+                    <span>${tax.toFixed(2)}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Shipping</span>
-                  <span className="text-[#FF7A00]">
-                    {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+
+                {/* Total */}
+                <div className="flex justify-between items-center pt-6 border-t border-gray-300 mb-6">
+                  <span className="text-xl">Total</span>
+                  <span className="text-3xl text-[#FF7A00]">
+                    ${total.toFixed(2)}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Tax (8%)</span>
-                  <span>${tax.toFixed(2)}</span>
-                </div>
+
+                {/* Place Order Button */}
+                <button
+                  type="submit"
+                  className="w-full bg-[#FF7A00] hover:bg-[#E66D00] text-white py-4 rounded-xl text-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <BiLockAlt className="w-5 h-5" />
+                  Place Order
+                </button>
+
+                <p className="text-xs text-center text-gray-600 mt-4">
+                  Your payment information is encrypted and secure
+                </p>
               </div>
-
-              {/* Total */}
-              <div className="flex justify-between items-center pt-6 border-t border-gray-300 mb-6">
-                <span className="text-xl">Total</span>
-                <span className="text-3xl text-[#FF7A00]">
-                  ${total.toFixed(2)}
-                </span>
-              </div>
-
-              {/* Place Order Button */}
-              <button
-                type="submit"
-                className="w-full bg-[#FF7A00] hover:bg-[#E66D00] text-white py-4 rounded-xl text-lg transition-colors flex items-center justify-center gap-2"
-              >
-                <BiLockAlt className="w-5 h-5" />
-                Place Order
-              </button>
-
-              <p className="text-xs text-center text-gray-600 mt-4">
-                Your payment information is encrypted and secure
-              </p>
             </div>
-          </div>
+          )}
 
         </form>
       </div>
