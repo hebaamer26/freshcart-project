@@ -1,7 +1,7 @@
 'use server'
 import axios, { AxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
-import { CheckoutTypes } from "../Schema/CheckoutSchema";
+import { CheckoutFormTypes } from "../Schema/CheckoutSchema";
 
 type shippingAddress = {
   details: string;
@@ -14,7 +14,7 @@ export async function createCashOrder({
 
 }: {
   cartId: string;
-  shippingAddress: CheckoutTypes;
+  shippingAddress:CheckoutFormTypes;
 
 }) {
   const cookieStore = await cookies();
@@ -49,7 +49,7 @@ export async function createOnlineOrder({
   url
 }: {
   cartId: string;
-  shippingAddress: CheckoutTypes;
+  shippingAddress: CheckoutFormTypes;
   url:string
 }) {
   const cookieStore = await cookies();
