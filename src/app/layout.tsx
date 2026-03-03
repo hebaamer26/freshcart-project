@@ -5,66 +5,71 @@ import { Footer } from "@/components/shared/Footer";
 import "./globals.css";
 import AppProviders from "@/components/Providers/Providers";
 import { verifyToken } from "@/features/auth/Server/AuthServer";
-import {  CartState } from '../features/cart/store/CartSlice';
+import { CartState } from '../features/cart/store/CartSlice';
 import { getLoggedUserCart } from "@/features/cart/Server/CartServerAction";
+import { WishlistState, WishlistReducer } from "@/features/Wishlist/Store/WishlistSlice";
+import { UiState, uiReducer } from "@/store/uiSlice";
 
 
-let cartState:CartState={
-      numOfCartItems: 0,
-      cartId: "",
-      products: [],
-      totalCartPrice: 0,
-      isLoading: false,
-      error: null,
-    }
+let cartState: CartState = {
+  numOfCartItems: 0,
+  cartId: "",
+  products: [],
+  totalCartPrice: 0,
+  isLoading: false,
+  error: null,
+}
 
 
-export default async function RootLayout({children}:{children:ReactNode}) {
+const initialWishlistState = WishlistReducer(undefined, { type: '@@INIT' } as any);
+const initialUiState = uiReducer(undefined, { type: '@@INIT' } as any);
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
   const AuthResponse = await verifyToken()
   if (AuthResponse.isAuthentication) {
-  try {
-    const cartResponse = await getLoggedUserCart();
-    cartState = {
-      cartId: cartResponse.cartId,
-      totalCartPrice: cartResponse.data.totalCartPrice,
-      products: cartResponse.data.products,
-      numOfCartItems: cartResponse.numOfCartItems,
-      isLoading: false,
-      error: null
+    try {
+      const cartResponse = await getLoggedUserCart();
+      cartState = {
+        cartId: cartResponse.cartId,
+        totalCartPrice: cartResponse.data.totalCartPrice,
+        products: cartResponse.data.products,
+        numOfCartItems: cartResponse.numOfCartItems,
+        isLoading: false,
+        error: null
+      }
+
+    } catch (error) {
     }
-
-  } catch (error) {
   }
-}
   return (
-   <>
-   <html>
-    <body>
-      
+    <>
+      <html>
+        <body>
 
-      <AppProviders preloadedState={{Auth: AuthResponse, Cart:cartState}}>
 
-        <Navbar/>
-        {children}
-        <Footer/>
+          <AppProviders preloadedState={{ Auth: AuthResponse, Cart: cartState, Wishlist: initialWishlistState, ui: initialUiState }}>
 
-      </AppProviders>
+            <Navbar />
+            {children}
+            <Footer />
 
-      
-
- 
+          </AppProviders>
 
 
 
 
 
-    </body>
-   </html>
-   
-   
-   
-   
-   </>
+
+
+
+
+        </body>
+      </html>
+
+
+
+
+    </>
   )
 }
 
