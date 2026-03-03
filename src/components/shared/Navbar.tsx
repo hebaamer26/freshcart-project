@@ -145,8 +145,8 @@ export default function Navbar() {
                 <IoIosMenu />
               </button>
 
-              {/* Logo */}
-              <Link href="/" className="flex items-center justify-center absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 z-10 w-[140px] h-[40px] lg:w-[160px] lg:h-[45px]">
+              {/* Logo - Centered Absolutely on Mobile, Static on Desktop */}
+              <Link href="/" className="flex items-center justify-center absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 z-10">
                 <div className="font-extrabold text-2xl lg:text-3xl tracking-tight">
                   <span className="text-orange-500 drop-shadow-md">Fresh</span>
                   <span className="text-black">Cart</span>
