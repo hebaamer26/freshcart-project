@@ -92,7 +92,7 @@ export default function ProductInfo({ product }: { product: ProductDetailsTypes 
       <div className="container mx-auto px-6 py-8">
 
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href="/" className="hover:text-[#FF7A00] transition-colors">
             Home
           </Link>
@@ -129,7 +129,7 @@ export default function ProductInfo({ product }: { product: ProductDetailsTypes 
               {category.name}
             </span>
 
-            <h1 className="text-4xl mb-4">{title}</h1>
+            <h1 className="text-2xl sm:text-4xl mb-4 leading-tight">{title}</h1>
 
             {/* Rating */}
             <div className="flex items-center gap-3 mb-6">
@@ -176,7 +176,7 @@ export default function ProductInfo({ product }: { product: ProductDetailsTypes 
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Quantity
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex items-center border-2 border-gray-200 rounded-lg overflow-hidden">
                   <button
                     id="decrease-qty"
@@ -218,7 +218,7 @@ export default function ProductInfo({ product }: { product: ProductDetailsTypes 
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <button className="flex-1 flex items-center justify-center gap-2 py-4 bg-[#FF7A00] text-white rounded-xl hover:bg-[#E66D00] transition-colors text-lg"
                 onClick={HandleAddToCart}>
                 <CgShoppingCart className="w-5 h-5"
@@ -234,7 +234,7 @@ export default function ProductInfo({ product }: { product: ProductDetailsTypes 
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-3 gap-4 py-6 border-y border-gray-200">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 py-6 border-y border-gray-200">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center">
                   <BsTruck className="w-6 h-6 text-[#FF7A00]" />

@@ -83,13 +83,13 @@ export default function WishlistItem({
         <BiTrash className="w-5 h-5 text-red-400 hover:text-red-600" />
       </button>
 
-      <div className="flex items-center gap-6">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
         {/* صورة المنتج */}
         <div className="flex-shrink-0">
           <img
             src={imageCover}
             alt={title}
-            className="w-32 h-32 object-cover rounded-xl"
+            className="w-full sm:w-32 h-40 sm:h-32 object-cover rounded-xl"
           />
         </div>
 
@@ -108,16 +108,14 @@ export default function WishlistItem({
           </div>
 
           {/* حالة المخزون */}
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex justify-center sm:justify-start items-center gap-2 mb-4">
             <span
-              className={`inline-block w-2 h-2 rounded-full ${
-                inStock ? "bg-green-500" : "bg-red-500"
-              }`}
+              className={`inline-block w-2 h-2 rounded-full ${inStock ? "bg-green-500" : "bg-red-500"
+                }`}
             />
             <span
-              className={`text-sm ${
-                inStock ? "text-green-600" : "text-red-600"
-              }`}
+              className={`text-sm ${inStock ? "text-green-600" : "text-red-600"
+                }`}
             >
               {inStock ? "In Stock" : "Out of Stock"}
             </span>
@@ -127,11 +125,10 @@ export default function WishlistItem({
           <button
             onClick={() => onAddToCart(_id)}
             disabled={!inStock}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-colors
-              ${
-                inStock
-                  ? "bg-[#FF7A00] text-white hover:bg-[#E66D00]"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            className={`w-full sm:w-auto flex justify-center sm:justify-start items-center gap-2 px-6 py-3 rounded-lg transition-colors
+              ${inStock
+                ? "bg-[#FF7A00] text-white hover:bg-[#E66D00]"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }
             `}
           >

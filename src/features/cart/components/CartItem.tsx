@@ -8,8 +8,8 @@ import { toast } from 'react-toastify';
 import { removeProduct, setCartInfo } from "../store/CartSlice";
 import Swal from 'sweetalert2'
 
-export default function CartItem({info}:{info:CartProduct}) {
-     
+export default function CartItem({ info }: { info: CartProduct }) {
+
     const { _id, count, price, product } = info;
     const { brand, category, imageCover, quantity, ratingsAverage, title, subcategory } = product
     const dispatch = useAppDispatch()
@@ -74,13 +74,13 @@ export default function CartItem({info}:{info:CartProduct}) {
                     <BiTrash className="w-5 h-5 text-red-400 hover:text-red-600" />
                 </button>
 
-                <div className="flex items-center gap-6">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
                     {/* Product Image */}
                     <div className="flex-shrink-0">
                         <img
                             src={imageCover}
                             alt={title}
-                            className="w-32 h-32 object-cover rounded-xl"
+                            className="w-full sm:w-32 h-40 sm:h-32 object-cover rounded-xl"
                         />
                     </div>
 
@@ -97,7 +97,7 @@ export default function CartItem({info}:{info:CartProduct}) {
                         </div>
 
                         {/* Quantity Selector */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row items-center gap-3 justify-center sm:justify-start">
                             <span className="text-gray-700 text-lg font-normal">Quantity :</span>
                             <div className="flex items-center gap-2">
                                 <button
@@ -117,8 +117,9 @@ export default function CartItem({info}:{info:CartProduct}) {
                         </div>
                     </div>
 
-                    <div className="flex-shrink-0 text-right">
-                        <div className="text-sm text-gray-500 mb-1">Total</div>
+                    <div className="w-full sm:w-auto flex flex-row sm:flex-col justify-between sm:justify-start items-center sm:items-end flex-shrink-0 text-right mt-4 sm:mt-0 border-t sm:border-t-0 border-gray-200 pt-4 sm:pt-0">
+                        <div className="text-sm text-gray-500 mb-1 sm:block hidden">Total</div>
+                        <div className="text-sm text-gray-500 mb-1 sm:hidden block font-medium">Total:</div>
                         <div className="text-2xl text-gray-700 font-bold flex gap-2 justify-center">
                             {price * count}
                             <span className="text-lg text-gray-400 mt-1 font-medium">EGP</span>

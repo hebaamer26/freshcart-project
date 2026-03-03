@@ -95,7 +95,7 @@ export default function LoginForm() {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white">
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 bg-white pt-6 sm:pt-10">
           <div className="w-full max-w-lg">
 
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 ">

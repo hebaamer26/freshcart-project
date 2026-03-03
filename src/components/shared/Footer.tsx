@@ -21,11 +21,11 @@ export function Footer() {
   return (
     <footer className="bg-zinc-900 text-gray-300 mt-16 border-t-4 border-[#FF7A00]">
       <div className="max-w-7xl mx-auto px-6 py-12">
-   
+
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-8 text-center md:text-left">
           {/* Company Info - Takes 2 columns */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 flex flex-col items-center md:items-start">
             {/* Logo */}
             <div className="inline-block px-4 py-2 rounded-xl h-[50px] w-[170px] relative">
               <Link href="/" className="flex items-center absolute inset-0 justify-center">
@@ -59,7 +59,7 @@ export function Footer() {
             </div>
 
             {/* Social Media */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-3 pt-2 justify-center md:justify-start">
               <a
                 href="#"
                 className="w-9 h-9 bg-[#2a2a2a] rounded-lg flex items-center justify-center hover:bg-[#FF7A00] text-gray-400 hover:text-white transition-colors"
@@ -207,8 +207,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-gray-800 pb-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
             {/* Copyright */}
             <div className="text-sm text-gray-500">
               © {currentYear} FreshCart. All rights reserved.
