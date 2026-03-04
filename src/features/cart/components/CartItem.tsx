@@ -91,7 +91,7 @@ export default function CartItem({ info }: { info: CartProduct }) {
 
                         {/* Price Section */}
                         <div className="mb-4">
-                            <div className="flex items-baseline gap-2">
+                            <div className="flex justify-center sm:justify-start items-baseline gap-2">
                                 <span className="text-lg text-orange-400 font-bold">{price} EGP</span>
                             </div>
                         </div>
