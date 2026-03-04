@@ -28,14 +28,16 @@ export default function CheckoutScreen() {
   const [sameAsShipping, setSameAsShipping] = useState(true);
 
   //handle subtotal and shipping
-  const subtotal = products.reduce((sum, item) => sum + item.price * item.product.quantity, 0);
+  const subtotal = totalCartPrice || products.reduce((sum, item) => sum + item.price * (item.product?.quantity || item.count || 1), 0);
+  const baseShippingCost = subtotal > 500 ? 0 : 100;
+
   const shippingCosts = {
-    standard: 0,
-    express: 15.99,
-    overnight: 29.99,
+    standard: baseShippingCost,
+    express: baseShippingCost + 150,
+    overnight: baseShippingCost + 300,
   };
   const shipping = shippingCosts[shippingMethod];
-  const tax = subtotal * 0.08; // 8% tax
+  const tax = subtotal * 0.14; // 14% VAT
   const total = subtotal + shipping + tax;
   const {
     register,
@@ -125,7 +127,7 @@ export default function CheckoutScreen() {
 
         {numOfCartItems > 0 ? (
           <>
-            
+
             <div className="flex items-center justify-center mb-8 sm:mb-12">
               <div className="flex items-center gap-2 sm:gap-4">
                 <div className="flex items-center gap-1 sm:gap-2">
@@ -153,7 +155,7 @@ export default function CheckoutScreen() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
 
-            
+
               <input type="hidden" value={paymentMethod} {...register("paymentMethod")} />
 
               {/* ---------------- Left Side ---------------- */}
@@ -236,7 +238,9 @@ export default function CheckoutScreen() {
                           <div className="text-sm text-gray-500">5-7 business days</div>
                         </div>
                       </div>
-                      <span className="text-[#FF7A00] font-bold">FREE</span>
+                      <span className={`font-bold ${shippingCosts.standard === 0 ? 'text-[#FF7A00]' : 'text-gray-900 font-semibold'}`}>
+                        {shippingCosts.standard === 0 ? 'FREE' : `${shippingCosts.standard.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP`}
+                      </span>
                     </label>
 
                     <label
@@ -259,7 +263,7 @@ export default function CheckoutScreen() {
                           <div className="text-sm text-gray-500">2-3 business days</div>
                         </div>
                       </div>
-                      <span className="text-gray-900 font-semibold">$15.99</span>
+                      <span className="text-gray-900 font-semibold">{shippingCosts.express.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP</span>
                     </label>
 
                     <label
@@ -282,7 +286,7 @@ export default function CheckoutScreen() {
                           <div className="text-sm text-gray-500">Next business day</div>
                         </div>
                       </div>
-                      <span className="text-gray-900 font-semibold">$29.99</span>
+                      <span className="text-gray-900 font-semibold">{shippingCosts.overnight.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP</span>
                     </label>
                   </div>
                 </div>
@@ -389,24 +393,28 @@ export default function CheckoutScreen() {
               {/* Right Column - Order Summary */}
               {products && products.length > 0 && (
                 <div className="lg:col-span-1">
-                  <div className="bg-[#FAFAFA] rounded-2xl p-8 sticky top-6">
-                    <h2 className="text-2xl mb-6">Order Summary</h2>
+                  <div className="bg-white border border-gray-200 shadow-lg rounded-3xl p-6 sm:p-8 sticky top-6">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                      Order Summary
+                    </h2>
 
                     {/* Cart Items */}
-                    <div className="mb-6 pb-6 border-b border-gray-300">
-                      <div className="max-h-56 overflow-y-auto space-y-4">
+                    <div className="mb-6 pb-6 border-b border-gray-100">
+                      <div className="max-h-64 overflow-y-auto space-y-5 pr-2 custom-scrollbar">
                         {products.map((item, index) => (
-                          <div key={item.product?._id || index} className="flex gap-4">
-                            <img
-                              src={item.product?.imageCover}
-                              alt={item.product?.title}
-                              className="w-20 h-20 object-cover rounded-lg"
-                            />
+                          <div key={item.product?._id || index} className="flex gap-4 items-center">
+                            <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 border border-gray-100">
+                              <img
+                                src={item.product?.imageCover}
+                                alt={item.product?.title}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-sm mb-1 line-clamp-2">{item.product?.title}</h3>
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs text-gray-600">Qty: {item.product?.quantity || item.count}</span>
-                                <span className="text-[#FF7A00]">${item.price.toFixed(2)}</span>
+                              <h3 className="text-sm font-medium text-gray-800 line-clamp-2 mb-1">{item.product?.title}</h3>
+                              <div className="flex items-center justify-between mt-2">
+                                <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-md">Qty: {item.product?.quantity || item.count || 1}</span>
+                                <span className="text-[#FF7A00] font-semibold">{item.price.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP</span>
                               </div>
                             </div>
                           </div>
@@ -415,43 +423,57 @@ export default function CheckoutScreen() {
                     </div>
 
                     {/* Price Breakdown */}
-                    <div className="space-y-3 mb-6">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Subtotal</span>
-                        <span>${subtotal.toFixed(2)}</span>
+                    <div className="space-y-4 mb-6">
+                      <div className="flex justify-between items-center text-gray-600">
+                        <span className="font-medium text-gray-700">Subtotal</span>
+                        <span className="font-semibold text-gray-900">{subtotal.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Shipping</span>
-                        <span className="text-[#FF7A00]">
-                          {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
-                        </span>
+                      <div className="flex justify-between items-center text-gray-600">
+                        <span className="font-medium text-gray-700">Shipping</span>
+                        {shipping === 0 ? (
+                          <span className="font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-md text-sm">FREE</span>
+                        ) : (
+                          <span className="font-semibold text-gray-900">{shipping.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP</span>
+                        )}
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Tax (8%)</span>
-                        <span>${tax.toFixed(2)}</span>
+                      <div className="flex justify-between items-center text-gray-600">
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium text-gray-700">Tax</span>
+                          <span className="text-xs text-gray-400">(14% VAT)</span>
+                        </div>
+                        <span className="font-semibold text-gray-900">{tax.toLocaleString("en-EG", { minimumFractionDigits: 2 })} EGP</span>
                       </div>
                     </div>
 
                     {/* Total */}
-                    <div className="flex justify-between items-center pt-6 border-t border-gray-300 mb-6">
-                      <span className="text-xl">Total</span>
-                      <span className="text-2xl sm:text-3xl text-[#FF7A00]">
-                        ${total.toFixed(2)}
-                      </span>
+                    <div className="flex justify-between items-end pt-6 border-t border-gray-100 mb-8 bg-orange-50/30 p-4 rounded-2xl">
+                      <div>
+                        <span className="text-lg font-bold text-gray-800">Total</span>
+                        <p className="text-xs text-gray-500 mt-1">Including VAT</p>
+                      </div>
+                      <div className="flex items-baseline justify-end gap-1.5">
+                        <span className="text-3xl font-black text-[#FF7A00] leading-none tracking-tight">
+                          {total.toLocaleString("en-EG", { minimumFractionDigits: 2 })}
+                        </span>
+                        <span className="text-base font-bold text-gray-500">EGP</span>
+                      </div>
                     </div>
 
                     {/* Place Order Button */}
                     <button
                       type="submit"
-                      className="w-full bg-[#FF7A00] hover:bg-[#E66D00] text-white py-4 rounded-xl text-lg transition-colors flex items-center justify-center gap-2"
+                      className="w-full bg-[#FF7A00] hover:bg-[#E66D00] text-white py-4 rounded-xl text-lg font-bold transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2"
                     >
-                      <BiLockAlt className="w-5 h-5" />
-                      Place Order
+                      <BiLockAlt className="w-6 h-6" />
+                      Complete Purchase
                     </button>
 
-                    <p className="text-xs text-center text-gray-600 mt-4">
-                      Your payment information is encrypted and secure
-                    </p>
+                    <div className="flex items-center justify-center gap-2 mt-5 text-gray-500">
+                      <BiLock className="w-4 h-4" />
+                      <p className="text-xs font-medium">
+                        Payments are 100% secure and encrypted
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
