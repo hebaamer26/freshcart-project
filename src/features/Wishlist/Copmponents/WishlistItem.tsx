@@ -59,10 +59,10 @@ export default function WishlistItem({
 
     if (result.isConfirmed) {
       try {
-        // نستنى السيرفر الأول
+       
         await removeProductFromWishlist(_id);
 
-        // لو نجح نحذف من redux
+      
         dispatch(removeProduct({ id: _id }));
 
         toast.success(`${title} removed from wishlist`);
@@ -74,7 +74,7 @@ export default function WishlistItem({
 
   return (
     <div className="bg-[#FAFAFA] rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow relative">
-      {/* زرار الحذف */}
+    
       <button
         onClick={handleRemove}
         className="absolute top-4 right-4 p-2 hover:bg-red-50 rounded-lg transition-colors"
@@ -84,7 +84,7 @@ export default function WishlistItem({
       </button>
 
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
-        {/* صورة المنتج */}
+    
         <div className="flex-shrink-0">
           <img
             src={imageCover}
@@ -94,20 +94,20 @@ export default function WishlistItem({
         </div>
 
         <div className="flex-1 min-w-0">
-          {/* اسم المنتج */}
+    
           <h3 className="text-lg mb-2 pr-8">{title}</h3>
 
-          {/* التصنيف */}
+  
           <span className="inline-block px-3 py-1 rounded-full bg-orange-50 text-[#FF7A00] text-sm mb-3">
             {category.name}
           </span>
 
-          {/* السعر */}
+   
           <div className="text-2xl text-[#FF7A00] mb-4">
             ${price.toFixed(2)}
           </div>
 
-          {/* حالة المخزون */}
+     
           <div className="flex justify-center sm:justify-start items-center gap-2 mb-4">
             <span
               className={`inline-block w-2 h-2 rounded-full ${inStock ? "bg-green-500" : "bg-red-500"

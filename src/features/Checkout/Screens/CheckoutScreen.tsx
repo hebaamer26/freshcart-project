@@ -157,7 +157,7 @@ export default function CheckoutScreen() {
               <input type="hidden" value={paymentMethod} {...register("paymentMethod")} />
 
               {/* ---------------- Left Side ---------------- */}
-              <div className={`${numOfCartItems > 0 ? 'lg:col-span-2' : ''} space-y-6`}>
+              <div className={`${products && products.length > 0 ? 'lg:col-span-2' : 'lg:col-span-3'} space-y-6`}>
 
                 {/* Shipping Information */}
                 <div className="bg-white border border-gray-200 p-6 sm:p-8 rounded-2xl shadow-sm space-y-6">
@@ -387,7 +387,7 @@ export default function CheckoutScreen() {
 
               {/* ---------------- Right Side ---------------- */}
               {/* Right Column - Order Summary */}
-              {numOfCartItems > 0 && (
+              {products && products.length > 0 && (
                 <div className="lg:col-span-1">
                   <div className="bg-[#FAFAFA] rounded-2xl p-8 sticky top-6">
                     <h2 className="text-2xl mb-6">Order Summary</h2>
@@ -395,17 +395,17 @@ export default function CheckoutScreen() {
                     {/* Cart Items */}
                     <div className="mb-6 pb-6 border-b border-gray-300">
                       <div className="max-h-56 overflow-y-auto space-y-4">
-                        {products.map((item) => (
-                          <div key={cartId} className="flex gap-4">
+                        {products.map((item, index) => (
+                          <div key={item.product?._id || index} className="flex gap-4">
                             <img
-                              src={item.product.imageCover}
-                              alt={item.product.title}
+                              src={item.product?.imageCover}
+                              alt={item.product?.title}
                               className="w-20 h-20 object-cover rounded-lg"
                             />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-sm mb-1 line-clamp-2">{item.product.title}</h3>
+                              <h3 className="text-sm mb-1 line-clamp-2">{item.product?.title}</h3>
                               <div className="flex items-center justify-between">
-                                <span className="text-xs text-gray-600">Qty: {item.product.quantity}</span>
+                                <span className="text-xs text-gray-600">Qty: {item.product?.quantity || item.count}</span>
                                 <span className="text-[#FF7A00]">${item.price.toFixed(2)}</span>
                               </div>
                             </div>

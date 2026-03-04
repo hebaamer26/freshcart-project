@@ -67,19 +67,12 @@ Once the installation is complete and the environment variables are configured, 
    npm run start
    ```
 
-## Screenshots
 
-> *Add your screenshots here to showcase the application's clean UI and features.*
-
-<!-- Example Placeholders: -->
-<!-- ![Home Page](./public/screenshots/home.png) -->
-<!-- ![Cart Page](./public/screenshots/cart.png) -->
-<!-- ![Checkout Page](./public/screenshots/checkout.png) -->
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
 
 ## Contact / Author
 - **Author:** Heba Amer
-- **Email:** *[Your Email Address]*
-- **GitHub:** [https://github.com/hebaamer26](https://github.com/hebaamer26)
+- **Email:** *[Heba amer mohamed]*
+- **GitHub:** [https://github.com/hebaamer26]
