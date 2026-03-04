@@ -13,7 +13,7 @@ export default async function featuredProducts() {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 ">Featured <span className="text-orange-400">Products</span></h2>
           </div>
           {/* Products */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6 justify-items-center sm:justify-items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-6 justify-items-center sm:justify-items-stretch">
             {response.data.map((product) => (
               <ProductCard
                 key={product.id}

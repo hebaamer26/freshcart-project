@@ -114,15 +114,15 @@ export function ProductCard({ info }: { info: ProductsTypes }) {
       </div>
 
       {/* Product Info Section */}
-      <div className="pt-3 px-3">
+      <div className="pt-3 px-3 flex flex-col flex-grow">
         {/* Category */}
-        <p className="text-xs text-gray-500 mb-1">
+        <p className="text-xs sm:text-sm text-gray-500 mb-1 truncate">
           {category.name}
         </p>
 
         {/* Product description */}
         <Link href={`/products/${_id}`}>
-          <h3 className="text-sm font-medium text-gray-900  line-clamp-2 leading-tight cursor-pointer">
+          <h3 className="text-sm sm:text-base font-medium text-gray-900 line-clamp-2 leading-snug cursor-pointer mb-2 h-[42px] sm:h-[48px]">
             {title}
           </h3>
         </Link>
@@ -133,28 +133,27 @@ export function ProductCard({ info }: { info: ProductsTypes }) {
             {[...Array(5)].map((_, i) => (
               <FaRegStar
                 key={i}
-                size={12}
-                className={`${i < Math.floor(ratingsAverage)
+                className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${i < Math.floor(ratingsAverage)
                   ? "fill-orange-400 text-orange-400"
                   : "text-gray-400"
                   }`}
               />
             ))}
           </div>
-          <span className="text-[15px] text-gray-600 bold ">
+          <span className="text-xs sm:text-sm md:text-[15px] font-semibold text-gray-600 truncate">
             {ratingsAverage} ({ratingsQuantity} reviews)
           </span>
         </div>
 
         {/* Price and Add to Cart */}
-        <div className="flex items-center justify-between pb-3">
+        <div className="flex items-center justify-between pb-3 mt-auto gap-2">
           {/* Price */}
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-orange-600">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <span className="text-base sm:text-lg md:text-xl font-bold text-orange-600 truncate">
               {price} EGP
             </span>
             {/* {oldPrice && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-xs sm:text-sm text-gray-400 line-through truncate">
                 {oldPrice} EGP
               </span>
             )} */}
@@ -162,11 +161,11 @@ export function ProductCard({ info }: { info: ProductsTypes }) {
 
           {/* Add to Cart Button */}
           <button
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-orange-400 text-white shadow-md hover:shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
+            className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 shrink-0 flex items-center justify-center rounded-full bg-orange-400 text-white shadow-md hover:shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
             aria-label="Add to cart"
             onClick={HandleAddToCart}
           >
-            <FaPlus size={18} strokeWidth={2.5} />
+            <FaPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-4 md:h-4" strokeWidth={2.5} />
 
           </button>
         </div>
